@@ -25,7 +25,7 @@ public class CountRectangles {
         int ans = 0;
         for (int i = 0; i < n; i++) {
             for (int j = i + 1; j < n; j++) {
-                // checks if there exists a rectange such that the i-th and
+                // checks if there exists a rectangle such that the i-th and
                 // j-th points are the ends of a diagonal
                 if (a[i] == a[j] || b[i] == b[j])
                     continue;
