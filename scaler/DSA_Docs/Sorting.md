@@ -2,6 +2,7 @@ DSA : `SORTING` implementation
 
 1. Sorting 2 : Inversion count in an array
 2. Sorting 2 : Largest Number
+3. Sorting 2 : Unique Elements
 
 ---
 
@@ -71,7 +72,7 @@ public class InversionCountInAnArray {
 }
 ```
 
-## 1. Sorting 2 : Largest Number in an array
+## 2. Sorting 2 : Largest Number in an array
 Given an array A of non-negative integers, arrange them such that they form the largest number
 
 **LargestNumber.java**:
@@ -98,6 +99,38 @@ public class LargestNumber {
             sb.append(i);
         }
         return sb.toString();
+    }
+}
+```
+
+## 3. Sorting 2 : Unique Elements
+You are given an array A of N elements. You have to make all elements unique. To do so, in one step you can increase any number by one.
+
+Find the minimum number of steps.
+
+**UniqueElements.java**:
+```java
+public class UniqueElements {
+
+    public static void main(String[] args) {
+        ArrayList<Integer> A = new ArrayList<>(Arrays.asList(
+                1, 1, 3, 1, 2, 3
+        ));
+
+        System.out.println(uniqueElements(A));
+    }
+
+    private static int uniqueElements(ArrayList<Integer> A) {
+        Collections.sort(A);
+        int count = 0;
+        for(int i=1; i<A.size(); i++){
+            if(A.get(i-1) >= A.get(i)){
+                int temp = A.get(i);
+                A.set(i, A.get(i-1) + 1);
+                count += A.get(i) - temp;
+            }
+        }
+        return count;
     }
 }
 ```
