@@ -5,7 +5,9 @@ DSA : `SORTING` implementation
 3. Sorting 2 : Unique Elements
 4. Sorting 2 : Reverse Pairs
 5. Sorting 2 : B Closest Points to Origin
-6. Sorting 2 : Sum The Difference
+6. Sorting 3 : Sum The Difference
+7. Sorting 3 : QuickSort
+8. Sorting 3 : Maximum Unsorted Subarray
 
 ---
 
@@ -241,7 +243,7 @@ public class BClosestPointsToOrigin {
 }
 ```
 
-## 6. :fire: Sorting 2 : Sum The Difference
+## 6. :fire: Sorting 3 : Sum The Difference
 :fire:
 
 **SumTheDifference.java**:
@@ -280,5 +282,124 @@ public class SumTheDifference {
 //    minVal : 22 , minPow : 2 || maxVal : 13 , maxPow : 2
 //    minVal : 32 , minPow : 1 || maxVal : 53 , maxPow : 4
 //            21
+}
+```
+
+## 6. Sorting 3 : QuickSort
+
+**QuickSort.java**:
+```java
+public class QuickSort {
+
+    public static void main(String[] args) {
+        ArrayList<Integer> A = new ArrayList<>(Arrays.asList(
+                1, 4, 10, 2, 1, 5
+        ));
+        quickSort(A, 0, A.size()-1);
+        System.out.println(A);
+    }
+
+    private static void quickSort(ArrayList<Integer> A, int s, int e) {
+        if(s >= e)  return;
+        int idx = rearrange(A, s, e);
+
+        quickSort(A, s, idx-1);
+        quickSort(A, idx+1, e);
+    }
+
+    private static int rearrange(ArrayList<Integer> A, int s, int e) {
+        //selecting the random index from the array
+        int randomPivot = (int)(Math.random()*(e-s+1)+s);
+
+        //swap the starting element and the randomPivot element
+        swap(A, s, randomPivot);
+
+        int i = s+1;
+        int j = e;
+
+        // sending A[s] to its right position
+        while(i <= j){
+            if(A.get(i) <= A.get(s)) // i -> is happy
+                i++;
+            else if(A.get(j) > A.get(s)) // j -> is happy
+                j--;
+            else{
+                // both are unhappy
+                swap(A, i, j);
+                i++;
+                j--;
+            }
+        }
+        // swap A[s] and A[i--]
+        swap(A, s, --i);
+        return i;
+    }
+
+    private static void swap(ArrayList<Integer> A, int a, int b) {
+        int temp = A.get(a);
+        A.set(a, A.get(b));
+        A.set(b, temp);
+    }
+
+}
+```
+
+## 7. Sorting 3 : Maximum Unsorted Subarray
+find the maximum length UnSorted subarray in a sorted array, when subarray is sorted than whole array become sorted. Output the indices [s,e]
+:star: focus on the EDGE CASE ... :star:
+
+**MaximumUnsortedSubarray.java**:
+```java
+public class MaximumUnsortedSubarray {
+
+    public static void main(String[] args) {
+        ArrayList<Integer> A = new ArrayList<>(Arrays.asList(
+                1, 4, 10, 2, 1, 5
+        ));
+
+        System.out.println(subArrayUnsorted(A));
+    }
+
+    private static ArrayList<Integer> subArrayUnsorted(ArrayList<Integer> A) {
+        ArrayList<Integer> ans = new ArrayList<>();
+        int n = A.size();
+        int i = 0;
+        int j = n-1;
+
+        while (i < n - 1 && A.get(i) <= A.get(i+1)) {
+            i++;
+        }
+
+        while(j>0 && A.get(j-1) <= A.get(j)){
+            j--;
+        }
+        // :star: EDGE CASE | if the array is already sorted, output is -1
+        if(i == n-1){
+            ans.add(-1);
+            return ans;
+        }
+
+        // :star: find the maximum and minimum element of the subarray -> A.get(i) ... A.get(j)
+        int mn = A.get(i);
+        int mx = A.get(i);
+
+        for (int k = i; k <= j ; k++) {
+            mx = Math.max(mx, A.get(k));
+            mn = Math.min(mn, A.get(k));
+        }
+
+        int l = 0, r = n-1;
+
+        while(A.get(l) <= mn && l <= i)
+            l++;
+
+        while(A.get(r) >= mx && r >= j)
+            r--;
+
+        ans.add(l);
+        ans.add(r);
+
+        return ans;
+    }
 }
 ```

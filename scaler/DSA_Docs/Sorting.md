@@ -7,6 +7,7 @@ DSA : `SORTING` implementation
 5. Sorting 2 : B Closest Points to Origin
 6. Sorting 3 : Sum The Difference
 7. Sorting 3 : QuickSort
+8. Sorting 3 : Maximum Unsorted Subarray
 
 ---
 
@@ -286,7 +287,7 @@ public class SumTheDifference {
 
 ## 6. Sorting 3 : QuickSort
 
-**SumTheDifference.java**:
+**QuickSort.java**:
 ```java
 public class QuickSort {
 
@@ -340,5 +341,65 @@ public class QuickSort {
         A.set(b, temp);
     }
 
+}
+```
+
+## 7. Sorting 3 : Maximum Unsorted Subarray
+find the maximum length UnSorted subarray in a sorted array, when subarray is sorted than whole array become sorted. Output the indices [s,e]
+:star: focus on the EDGE CASE ... :star:
+
+**MaximumUnsortedSubarray.java**:
+```java
+public class MaximumUnsortedSubarray {
+
+    public static void main(String[] args) {
+        ArrayList<Integer> A = new ArrayList<>(Arrays.asList(
+                1, 4, 10, 2, 1, 5
+        ));
+
+        System.out.println(subArrayUnsorted(A));
+    }
+
+    private static ArrayList<Integer> subArrayUnsorted(ArrayList<Integer> A) {
+        ArrayList<Integer> ans = new ArrayList<>();
+        int n = A.size();
+        int i = 0;
+        int j = n-1;
+
+        while (i < n - 1 && A.get(i) <= A.get(i+1)) {
+            i++;
+        }
+
+        while(j>0 && A.get(j-1) <= A.get(j)){
+            j--;
+        }
+        // :star: EDGE CASE | if the array is already sorted, output is -1
+        if(i == n-1){
+            ans.add(-1);
+            return ans;
+        }
+
+        // :star: find the maximum and minimum element of the subarray -> A.get(i) ... A.get(j)
+        int mn = A.get(i);
+        int mx = A.get(i);
+
+        for (int k = i; k <= j ; k++) {
+            mx = Math.max(mx, A.get(k));
+            mn = Math.min(mn, A.get(k));
+        }
+
+        int l = 0, r = n-1;
+
+        while(A.get(l) <= mn && l <= i)
+            l++;
+
+        while(A.get(r) >= mx && r >= j)
+            r--;
+
+        ans.add(l);
+        ans.add(r);
+
+        return ans;
+    }
 }
 ```
