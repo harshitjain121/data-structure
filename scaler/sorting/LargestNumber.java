@@ -21,7 +21,7 @@ public class LargestNumber {
 
     private static String largestNumber(ArrayList<Integer> A) {
         StringBuilder sb = new StringBuilder();
-        ComparatorUtils.Sort_InReverse_ByAdding_2_digitAsString(A);
+        ComparatorUtils.sort_InReverse_ByAdding_2_digitAsString(A);
 
         for (int i : A){
             if(i == 0 && sb.length() == 0)  continue;

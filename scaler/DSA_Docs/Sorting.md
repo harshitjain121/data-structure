@@ -3,6 +3,8 @@ DSA : `SORTING` implementation
 1. Sorting 2 : Inversion count in an array
 2. Sorting 2 : Largest Number
 3. Sorting 2 : Unique Elements
+4. Sorting 2 : Reverse Pairs
+5. Sorting 2 : B Closest Points to Origin
 
 ---
 
@@ -135,7 +137,7 @@ public class UniqueElements {
 }
 ```
 
-## 4. Sorting 2 : Reverse pairs 
+## 4. Sorting 2 : Reverse Pairs 
 :fire: :fire: :fire: Given an array of integers A, we call (i, j) an important reverse pair if i < j and A[i] > 2*A[j].
 Return the number of important reverse pairs in the given array A.
 
@@ -149,7 +151,7 @@ public class ReversePairs {
         ));
         //Output - 2
         // REFER MERGE SORT CODE ***********************
-        System.out.println(countInvertedPairs( A, 0,  A.size()-1));
+        System.out.println(countInvertedPairs( A, 0, A.size()-1));
     }
 
     private static int countInvertedPairs(ArrayList<Integer>  A, int l, int r) {
@@ -200,6 +202,40 @@ public class ReversePairs {
         }
 
         return count ;
+    }
+}
+```
+
+## 5. Sorting 2 : B Closest Points to Origin
+We have a list A of points (x, y) on the plane. Find the B closest points to the origin (0, 0).
+Here, the distance between two points on a plane is the Euclidean distance.
+You may return the answer in any order. The answer is guaranteed to be unique (except for the order that it is in.)
+NOTE: Euclidean distance between two points P1(x1, y1) and P2(x2, y2) is sqrt( (x1-x2)2 + (y1-y2)2 ).
+
+
+**BClosestPointsToOrigin.java**:
+```java
+public class BClosestPointsToOrigin {
+
+    public static void main(String[] args) {
+        ArrayList<ArrayList<Integer>> A = new ArrayList<>();
+        A.add(new ArrayList<>(Arrays.asList(1,3)));
+        A.add(new ArrayList<>(Arrays.asList(-2,2)));
+
+        int B = 1;
+        // output - [[-2, 2]]
+        System.out.println(findBClosestPointsFromOrigin(A, B));
+    }
+
+    private static ArrayList<ArrayList<Integer>> findBClosestPointsFromOrigin(ArrayList<ArrayList<Integer>> A, int B) {
+//        sorting the points based on the distance
+        ComparatorUtils.sortListOf_2_Points_List(A);
+
+        ArrayList<ArrayList<Integer>> res = new  ArrayList<>();
+        for(int i=0;i<B;i++){
+            res.add(A.get(i));
+        }
+        return res;
     }
 }
 ```

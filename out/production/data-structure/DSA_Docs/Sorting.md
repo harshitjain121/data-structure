@@ -3,6 +3,8 @@ DSA : `SORTING` implementation
 1. Sorting 2 : Inversion count in an array
 2. Sorting 2 : Largest Number
 3. Sorting 2 : Unique Elements
+4. Sorting 2 : Reverse Pairs
+5. Sorting 2 : B Closest Points to Origin
 
 ---
 
@@ -135,14 +137,83 @@ public class UniqueElements {
 }
 ```
 
-## 4. Sorting 2 : Reverse pairs
-Given an array of integers A, we call (i, j) an important reverse pair if i < j and A[i] > 2*A[j].
+## 4. Sorting 2 : Reverse Pairs 
+:fire: :fire: :fire: Given an array of integers A, we call (i, j) an important reverse pair if i < j and A[i] > 2*A[j].
 Return the number of important reverse pairs in the given array A.
+
 
 **ReversePairs.java**:
 ```java
 public class ReversePairs {
+    public static void main(String[] args) {
+        ArrayList<Integer>  A = new ArrayList<>(Arrays.asList(
+                1, 3, 2, 3, 1
+        ));
+        //Output - 2
+        // REFER MERGE SORT CODE ***********************
+        System.out.println(countInvertedPairs( A, 0, A.size()-1));
+    }
 
+    private static int countInvertedPairs(ArrayList<Integer>  A, int l, int r) {
+        // base case
+        if(r == l)  return 0;
+        int mid = l + (r-l)/2;
+
+        int a = countInvertedPairs( A, l, mid) ;
+        int b = countInvertedPairs( A, mid+1, r) ;
+        int a_with_b = merge( A, l, mid, r) ;
+
+        return (a + b + a_with_b) ;
+    }
+
+    private static int merge(ArrayList<Integer>  A, int l, int mid, int r) {
+        ArrayList<Integer> result = new ArrayList<>();
+        int count = 0;
+        int i = l;
+        int j = mid+1;
+
+        while(i <= mid && j<= r){
+            if( A.get(i) <=  A.get(j)){
+                result.add( A.get(i));
+                i++;
+            }
+            else{
+                // invert pair exists ~~~~~~~~~~~~~~~~~~~~~ TODO
+                if( A.get(i) > 2*  A.get(j)){
+                    count += mid-i+1;
+                }
+                result.add( A.get(j));
+                j++;
+            }
+        }
+
+        while(i <= mid){
+            result.add( A.get(i));
+            i++;
+        }
+        while(j <= r){
+            result.add( A.get(j));
+            j++;
+        }
+
+        //copy the sorted array back the original arraylist
+        for(int k=l; k<=r; k++){
+            A.set(k, result.get(k-l));
+        }
+
+        return count ;
+    }
+}
+```
+
+## 5. Sorting 2 : B Closest Points to Origin
+Given an array of integers A, we call (i, j) an important reverse pair if i < j and A[i] > 2*A[j].
+Return the number of important reverse pairs in the given array A.
+
+
+**BClosestPointsToOrigin.java**:
+```java
+public class ReversePairs {
     
 }
 ```
