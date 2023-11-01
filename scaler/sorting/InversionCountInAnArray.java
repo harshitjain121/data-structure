@@ -43,7 +43,7 @@ public class InversionCountInAnArray {
                 //inverted pair exists ----------------
 //              (----i--------mid) (-----j---------)
                 count = (count + mid - i +1) % MOD;
-                result.add(list.get(i));
+                result.add(list.get(j));
                 j++;
             }
         }

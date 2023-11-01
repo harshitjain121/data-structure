@@ -2,6 +2,7 @@ DSA : `SORTING` implementation
 
 1. Sorting 2 : Inversion count in an array
 2. Sorting 2 : Largest Number
+3. Sorting 2 : Unique Elements
 
 ---
 
@@ -109,7 +110,39 @@ Find the minimum number of steps.
 
 **UniqueElements.java**:
 ```java
-public class LargestNumber {
+public class UniqueElements {
 
+    public static void main(String[] args) {
+        ArrayList<Integer> A = new ArrayList<>(Arrays.asList(
+                1, 1, 3, 1, 2, 3
+        ));
+
+        System.out.println(uniqueElements(A));
+    }
+
+    private static int uniqueElements(ArrayList<Integer> A) {
+        Collections.sort(A);
+        int count = 0;
+        for(int i=1; i<A.size(); i++){
+            if(A.get(i-1) >= A.get(i)){
+                int temp = A.get(i);
+                A.set(i, A.get(i-1) + 1);
+                count += A.get(i) - temp;
+            }
+        }
+        return count;
+    }
+}
+```
+
+## 4. Sorting 2 : Reverse pairs
+Given an array of integers A, we call (i, j) an important reverse pair if i < j and A[i] > 2*A[j].
+Return the number of important reverse pairs in the given array A.
+
+**ReversePairs.java**:
+```java
+public class ReversePairs {
+
+    
 }
 ```
