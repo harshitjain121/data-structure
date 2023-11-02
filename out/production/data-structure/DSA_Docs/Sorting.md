@@ -8,6 +8,7 @@ DSA : `SORTING` implementation
 6. Sorting 3 : Sum The Difference
 7. Sorting 3 : QuickSort
 8. Sorting 3 : Maximum Unsorted Subarray
+9. Sorting 3 : Maximum Minimum Magic
 
 ---
 
@@ -285,7 +286,7 @@ public class SumTheDifference {
 }
 ```
 
-## 6. Sorting 3 : QuickSort
+## 7. Sorting 3 : QuickSort
 
 **QuickSort.java**:
 ```java
@@ -344,7 +345,7 @@ public class QuickSort {
 }
 ```
 
-## 7. Sorting 3 : Maximum Unsorted Subarray
+## 8. Sorting 3 : Maximum Unsorted Subarray
 find the maximum length UnSorted subarray in a sorted array, when subarray is sorted than whole array become sorted. Output the indices [s,e]
 :star: focus on the EDGE CASE ... :star:
 
@@ -400,6 +401,49 @@ public class MaximumUnsortedSubarray {
         ans.add(r);
 
         return ans;
+    }
+}
+```
+
+## 9. Sorting 3 : Maximum Minimum Magic
+Given an array of integers A of size N where N is even. Divide the array into two subsets such that
+`Magic Number` = sum of absolute difference of corresponding elements of subset.
+
+**MaximumMinimumMagic.java**:
+```java
+public class MaximumMinimumMagic {
+    private static final int MOD = 1000000007;
+    public static void main(String[] args) {
+        ArrayList<Integer> A = new ArrayList<>(Arrays.asList(
+                3, 11, -1, 5
+        ));
+
+        System.out.println(minAndMaxMagicCombination(A));
+    }
+
+    private static ArrayList<Integer> minAndMaxMagicCombination(ArrayList<Integer> A) {
+        ArrayList<Integer> result = new ArrayList<>();
+
+        Collections.sort(A);
+
+        // MINIMUM value
+        int min = 0;
+        int max = 0;
+        int N = A.size();
+
+        for (int i = 0; i < N; i+=2) {
+            min = (min + Math.abs(A.get(i) - A.get(i+1))) % MOD;
+        }
+
+        // MAXIMUM value
+        for (int i = 0; i < N/2; i++) {
+            max = (max + Math.abs(A.get(i) - A.get(N-i-1))) % MOD;
+        }
+
+        result.add(max);
+        result.add(min);
+
+        return result;
     }
 }
 ```
