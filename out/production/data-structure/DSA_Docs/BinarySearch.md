@@ -46,7 +46,6 @@ public class SortedInsertPosition {
 ```
 
 ## 2. :fire: BS 1 : Find a Peak Element
-You are given a sorted array A of size N and a target value B. find index.
 
 **PeakElement.java**:
 ```java
