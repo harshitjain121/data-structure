@@ -5,7 +5,7 @@ DSA : `Binary Seach` implementation
 3. BS 1 : Rotated Sorted Array Search
 4. BS 1 : Matrix Search
 5. BS 1 : :fire: :fire: Median Of Two Sorted Array
-6. BS 1 : Matrix Median
+6. BS 1 : :star: Matrix Median
 
 ---
 
@@ -228,7 +228,7 @@ public class MedianOf2SortedArray {
 ```
 
 ## 6. :star: BS 1 : Matrix Median
-` :star: MEDIAN >= (N*M)/2 + 1  elements in a matrix`  
+`MEDIAN >= (N*M)/2 + 1  elements in a matrix`  
 
 **MatrixMedian.java**:
 ```java
