@@ -6,6 +6,8 @@ DSA : `Binary Seach` implementation
 4. BS 1 : Matrix Search
 5. BS 1 : :fire: :fire: Median Of Two Sorted Array
 6. BS 1 : :star: Matrix Median
+7. BS 2 : Square Root of Integer
+
 
 ---
 
@@ -282,6 +284,99 @@ public class MatrixMedian {
             }
         }
         return s;
+    }
+}
+```
+
+## 7. BS 2 : Square Root of Integer
+
+**SquareRoot.java**:
+```java
+public class SquareRoot {
+
+    public static void main(String[] args) {
+        int A = 11;
+
+        System.out.println(findSquareRoot(A));
+    }
+
+    private static int findSquareRoot(int A) {
+        // edge case for A = 0;
+        if(A == 0)  return 0;
+
+        int s = 1;
+        int e = A;
+        int mid = s + (e-s)/2;
+        int ans = 1;
+
+        // for optimal power function - use our power function
+        //to save from overflow  -->  mid == A/mid
+
+        while(s <= e){
+            if(mid <= A/mid){
+                ans = mid;
+                s = mid+1;
+            }
+            else{
+                e = mid-1;
+            }
+            mid = s + (e-s)/2;
+        }
+        return ans;
+    }
+}
+```
+
+## 8. BS 2 : Special Integer
+//OPTIMAL SOLUTION - 2 POINTER - T.C - O(n) | complex
+//Binary Search  - T.C- O(n lon n)
+
+**SpecialInteger.java**:
+```java
+public class SpecialInteger {
+
+    public static void main(String[] args) {
+        ArrayList<Integer> A = new ArrayList<>(Arrays.asList(
+                2,24,38,25,35,33,43,12,49,35,45,47,5,33
+//                1,1000000000
+        ));
+        int B = 249; //1000000000
+        //OPTIMAL SOLUTION - 2 POINTER - T.C - O(n) - DRY RUN ON NOTES
+        //Binary Search  - T.C- O(n lon n)
+        System.out.println(findTheMaxLengthSubArrayWithSumLessThanEqualTo_B(A,B));
+    }
+
+    // TWO Pointer approach
+    private static int findTheMaxLengthSubArrayWithSumLessThanEqualTo_B(ArrayList<Integer> A, int B) {
+        //base case
+        if(B == 0)  return 0;
+
+        int i=0;
+        int j=0;
+        long sum = 0;
+        int window = 0;
+
+        while(j < A.size()){
+            sum += A.get(j++);
+            if(sum > B){
+                while(sum > B){
+                    sum -= A.get(i++);
+                    window = j-i;
+                }
+                break;
+            }
+        }
+
+        while(j<A.size()){
+            sum = sum + A.get(j++) - A.get(i++);
+            if(sum > B){
+                while(sum > B){
+                    sum -= A.get(i++);
+                    window = j-i;
+                }
+            }
+        }
+        return window;
     }
 }
 ```

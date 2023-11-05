@@ -5,7 +5,9 @@ DSA : `Binary Seach` implementation
 3. BS 1 : Rotated Sorted Array Search
 4. BS 1 : Matrix Search
 5. BS 1 : :fire: :fire: Median Of Two Sorted Array
-6. BS 1 : Matrix Median
+6. BS 1 : :star: Matrix Median
+7. BS 2 : Square Root of Integer
+
 
 ---
 
@@ -228,64 +230,153 @@ public class MedianOf2SortedArray {
 ```
 
 ## 6. :star: BS 1 : Matrix Median
-` :star: MEDIAN >= (N*M)/2 + 1  elements in a matrix`  
+`MEDIAN >= (N*M)/2 + 1  elements in a matrix`  
 
 **MatrixMedian.java**:
 ```java
-public class MedianOf2SortedArray {
+public class MatrixMedian {
+
+    public static void main(String[] args) {
+        ArrayList<ArrayList<Integer>> A = new ArrayList<>();
+        A.add(new ArrayList<>(Arrays.asList(1, 3, 5)));
+        A.add(new ArrayList<>(Arrays.asList(2, 6, 9)));
+        A.add(new ArrayList<>(Arrays.asList(3, 6, 9)));
+
+        System.out.println(findMatrixMedian(A));
+    }
+
+    private static int findMatrixMedian(ArrayList<ArrayList<Integer>> A) {
+        int n = A.size();
+        int m = A.get(0).size();
+        int s = 1;
+        int e = A.get(n-1).get(m-1);
+        final int MEDIAN_ELEMENT_COUNT = n*m/2 +1;
+
+        while(s <= e){
+            int mid = s + (e-s)/2;
+            int count = 0;
+
+            // count number of elements <= mid for each row . . . . .
+            for(int i=0; i<n; i++){
+                count += countSmallerNumber(A.get(i), mid, m);
+            }
+            // count should be greater than N*M/2 + 1
+            if(count < MEDIAN_ELEMENT_COUNT)
+                s = mid +1;
+            else
+                e = mid -1;
+        }
+        return s;
+    }
+
+    private static int countSmallerNumber(ArrayList<Integer> A, int mid, int m) {
+        int s = 0;
+        int e = m-1;
+
+        while(s <= e){
+            int midPos = s + (e-s)/2;
+
+            if(A.get(midPos) <= mid){
+                s = midPos +1;
+            }
+            else{
+                e = midPos -1;
+            }
+        }
+        return s;
+    }
+}
+```
+
+## 7. BS 2 : Square Root of Integer
+
+**SquareRoot.java**:
+```java
+public class SquareRoot {
+
+    public static void main(String[] args) {
+        int A = 11;
+
+        System.out.println(findSquareRoot(A));
+    }
+
+    private static int findSquareRoot(int A) {
+        // edge case for A = 0;
+        if(A == 0)  return 0;
+
+        int s = 1;
+        int e = A;
+        int mid = s + (e-s)/2;
+        int ans = 1;
+
+        // for optimal power function - use our power function
+        //to save from overflow  -->  mid == A/mid
+
+        while(s <= e){
+            if(mid <= A/mid){
+                ans = mid;
+                s = mid+1;
+            }
+            else{
+                e = mid-1;
+            }
+            mid = s + (e-s)/2;
+        }
+        return ans;
+    }
+}
+```
+
+## 8. BS 2 : Special Integer
+//OPTIMAL SOLUTION - 2 POINTER - T.C - O(n) | complex
+//Binary Search  - T.C- O(n lon n)
+
+**SpecialInteger.java**:
+```java
+public class SpecialInteger {
 
     public static void main(String[] args) {
         ArrayList<Integer> A = new ArrayList<>(Arrays.asList(
-                1, 4, 5
+                2,24,38,25,35,33,43,12,49,35,45,47,5,33
+//                1,1000000000
         ));
-        ArrayList<Integer> B = new ArrayList<>(Arrays.asList(
-                2,3
-        ));
-//      output - 3.0
-        System.out.println(medianOfTwoSortedArray(A, B));
+        int B = 249; //1000000000
+        //OPTIMAL SOLUTION - 2 POINTER - T.C - O(n) - DRY RUN ON NOTES
+        //Binary Search  - T.C- O(n lon n)
+        System.out.println(findTheMaxLengthSubArrayWithSumLessThanEqualTo_B(A,B));
     }
 
-    private static double medianOfTwoSortedArray(ArrayList<Integer> A, ArrayList<Integer> B) {
-        int n = A.size();
-        int m = B.size();
-        int total = n+m;
+    // TWO Pointer approach
+    private static int findTheMaxLengthSubArrayWithSumLessThanEqualTo_B(ArrayList<Integer> A, int B) {
+        //base case
+        if(B == 0)  return 0;
 
-        //first array size should be small - as calculating the CUTS on smaller array
-        if(n>m)
-            return medianOfTwoSortedArray(B,A);
+        int i=0;
+        int j=0;
+        long sum = 0;
+        int window = 0;
 
-        int s = 0;
-        int e = n;
-//        L1 <= R2 && L2 <= R1
-//                        cut1
-//        arr1 ->  .....L1 | R1 .......
-//                        cut2
-//        arr2 ->  .....L2 | R2 .......
-//        [.....L1  |  R2 .....]
-//        [.....L2  |  R1 .....]
-
-        while(s <= e){
-            int cut1 = (s+e)/2;     // mid
-            int cut2 = (total +1)/2 - cut1;
-
-            int l1 = (cut1 == 0) ? Integer.MIN_VALUE : A.get(cut1 -1);
-            int l2 = (cut2 == 0) ? Integer.MIN_VALUE : B.get(cut2 -1);
-            int r1 = (cut1 == n) ? Integer.MAX_VALUE : A.get(cut1);
-            int r2 = (cut2 == m) ? Integer.MAX_VALUE : B.get(cut2);
-
-            if(l1 <= r2 && l2 <= r1) {
-                // median logic
-                if((total % 2) == 0)
-                    return (Math.max(l1,l2) + Math.min(r1,r2))/2.0;
-                else
-                    return Math.max(l1,l2);
+        while(j < A.size()){
+            sum += A.get(j++);
+            if(sum > B){
+                while(sum > B){
+                    sum -= A.get(i++);
+                    window = j-i;
+                }
+                break;
             }
-            else if (l1 > r2)
-                e = cut1-1;
-            else
-                s = cut1+1;
         }
-        return 0.0;
+
+        while(j<A.size()){
+            sum = sum + A.get(j++) - A.get(i++);
+            if(sum > B){
+                while(sum > B){
+                    sum -= A.get(i++);
+                    window = j-i;
+                }
+            }
+        }
+        return window;
     }
 }
 ```
