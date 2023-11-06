@@ -7,6 +7,9 @@ DSA : `Binary Seach` implementation
 5. BS 1 : :fire: :fire: Median Of Two Sorted Array
 6. BS 1 : :star: Matrix Median
 7. BS 2 : Square Root of Integer
+8. BS 2 : Special Integer
+9. BS 2 : Ath Magical Number
+10. BS 2 : KthPrice (B.S in unsorted array)
 
 
 ---
@@ -377,6 +380,113 @@ public class SpecialInteger {
             }
         }
         return window;
+    }
+}
+```
+
+## 9. BS 2 : Ath Magical Number
+
+**AthMagicalNumber.java**:
+```java
+public class AthMagicalNumber {
+    private static final int MOD = 1000000007;
+    public static void main(String[] args) {
+        int A = 4;
+        int B = 2;
+        int C = 3;
+
+        System.out.println(findMagicalNumber(A, B, C));
+
+    }
+
+    private static int findMagicalNumber(int A, int B, int C) {
+        long start = Math.min(B, C);
+        long end = (long)A * start; // A* min(B,C)
+        long mid = start + (end - start)/2;
+
+        if(A == 1)  return (int)start;
+
+        long ans = start;
+        long lcm = (((long) B)*C)/ GcdUtils.gcd(B,C);
+
+        while(start <= end){
+            long count_of_B = mid/B;
+            long count_of_C = mid/C;
+            long count_of_BandC = mid/lcm;
+            long magicalNum_mid = (count_of_B + count_of_C - count_of_BandC);
+
+            if(magicalNum_mid >= A){
+                //move to left - for more precision
+                ans = mid;
+                end = mid - 1;
+            }
+            else{
+                //move to right
+                start = mid + 1;
+            }
+            mid = start + (end - start)/2;
+        }
+        // ans -> it can never be negative
+        // if(ans < 0 ){
+        //     ans += MOD;
+        // }
+        return (int)(ans % MOD);
+    }
+}
+```
+
+## 10. BS 2 : KthPrice
+:star: binary search in unsorted input array, but the search space is sorted.
+**KthPrice.java**:
+```java
+public class KthPrice {
+
+    public static void main(String[] args) {
+        ArrayList<Integer> A = new ArrayList<>(Arrays.asList(
+                2, 1, 4, 3, 2
+        ));
+        int B = 3;
+
+        System.out.println(find_Kth_Number(A, B));
+
+    }
+
+    private static int find_Kth_Number(ArrayList<Integer> A, int B) {
+        int min = 0;
+        int max = 0;
+        for (Integer i : A) {
+            max = Math.max(max, i);
+            min = Math.min(min, i);
+        }
+
+        int s = min;
+        int e = max;
+        int ans = 0;
+
+        //binary search -------------------------------------------
+        while(s <= e){
+            int mid = s + (e-s)/2;
+            int smallerThanK = elementsSmallerThanK(A, mid);
+
+            if(smallerThanK >= B){
+                //move to left
+                ans = mid;
+                e = mid -1;
+            }
+            else{
+                s = mid +1;
+            }
+        }
+        return ans;
+    }
+
+    private static int elementsSmallerThanK(ArrayList<Integer> A, int mid) {
+        int smallerThanK = 0;
+        for(int i : A){
+            if(i <= mid)
+                smallerThanK++;
+        }
+        return smallerThanK;
     }
 }
 ```
