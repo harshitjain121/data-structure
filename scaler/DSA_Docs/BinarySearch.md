@@ -437,6 +437,7 @@ public class AthMagicalNumber {
 
 ## 10. BS 2 : KthPrice
 :star: binary search in unsorted input array, but the search space is sorted.
+
 **KthPrice.java**:
 ```java
 public class KthPrice {
