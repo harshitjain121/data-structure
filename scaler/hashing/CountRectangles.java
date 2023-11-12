@@ -27,6 +27,7 @@ public class CountRectangles {
             for (int j = i + 1; j < n; j++) {
                 // checks if there exists a rectangle such that the i-th and
                 // j-th points are the ends of a diagonal
+                // ignoring the lines parallel to x and y-axis
                 if (a[i] == a[j] || b[i] == b[j])
                     continue;
                 if (mpx.get(a[i]).contains(b[j]) && mpx.get(a[j]).contains(b[i])){
