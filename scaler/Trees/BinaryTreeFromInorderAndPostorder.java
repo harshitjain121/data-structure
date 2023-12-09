@@ -16,7 +16,7 @@ public class BinaryTreeFromInorderAndPostorder {
                 Arrays.asList(6, 1, 3, 2)
         );
 
-        System.out.println(buildTree(postOrder, inOrder));
+        PrintTreeNode.printNode(buildTree(inOrder, postOrder));
     }
 
     public static TreeNode buildTree(ArrayList<Integer> A, ArrayList<Integer> B) {
@@ -40,11 +40,9 @@ public class BinaryTreeFromInorderAndPostorder {
         TreeNode root = new TreeNode(rootVal);
 
         int index = hash.get(rootVal);
-
         int lenLST = index - inStart;
 
         root.left = makeTree(post, inOrder, pStart, pStart+lenLST-1, inStart, index-1, hash);
-
         root.right = makeTree(post, inOrder, pStart + lenLST, pEnd-1, index+1, inEnd, hash);
 
         return root;

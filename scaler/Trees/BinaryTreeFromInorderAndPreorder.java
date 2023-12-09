@@ -16,7 +16,8 @@ public class BinaryTreeFromInorderAndPreorder {
                 Arrays.asList(15,5,19,6,18,9,25,8,7,41,4,39,30,48)
         );
 
-        System.out.println(buildTree(preOrder, inOrder).toString());
+//        System.out.println(buildTree(preOrder, inOrder).toString());
+        PrintTreeNode.printNode(buildTree(preOrder, inOrder));
     }
 
     public static TreeNode buildTree(ArrayList<Integer> A, ArrayList<Integer> B) {
@@ -38,11 +39,9 @@ public class BinaryTreeFromInorderAndPreorder {
         TreeNode root = new TreeNode(rootVal);
 
         int index = hash.get(rootVal);
-
         int lenLST = index - inStart;
 
         root.left = makeTree(pre, inOrder, pStart+1, pStart+lenLST, inStart, index-1, hash);
-
         root.right = makeTree(pre, inOrder, pStart + lenLST+1, pEnd, index+1, inEnd, hash);
 
         return root;
