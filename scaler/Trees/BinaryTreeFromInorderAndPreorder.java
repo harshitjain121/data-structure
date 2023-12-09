@@ -1,5 +1,7 @@
 package Trees;
 
+import com.sun.source.tree.Tree;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -17,7 +19,7 @@ public class BinaryTreeFromInorderAndPreorder {
         System.out.println(buildTree(preOrder, inOrder).toString());
     }
 
-    public static Tree buildTree(ArrayList<Integer> A, ArrayList<Integer> B) {
+    public static TreeNode buildTree(ArrayList<Integer> A, ArrayList<Integer> B) {
         HashMap<Integer, Integer> hash = new HashMap<Integer, Integer>();
 
         for(int i=0; i<B.size(); i++){
@@ -27,13 +29,13 @@ public class BinaryTreeFromInorderAndPreorder {
         return makeTree(A, B, 0, A.size()-1, 0, B.size()-1, hash);
     }
 
-    public static Tree makeTree(ArrayList<Integer> pre, ArrayList<Integer> inOrder, int pStart, int pEnd, int inStart, int inEnd,
+    public static TreeNode makeTree(ArrayList<Integer> pre, ArrayList<Integer> inOrder, int pStart, int pEnd, int inStart, int inEnd,
                                 HashMap<Integer, Integer> hash){
         //base case
         if(pStart > pEnd)   return null;
 
         int rootVal = pre.get(pStart);
-        Tree root = new Tree(rootVal);
+        TreeNode root = new TreeNode(rootVal);
 
         int index = hash.get(rootVal);
 
